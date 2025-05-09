@@ -1,4 +1,4 @@
-Welcome to your new TanStack app! 
+Welcome to your new TanStack Router + Convex + Shadcn app!
 
 # Getting Started
 
@@ -6,7 +6,7 @@ To run this application:
 
 ```bash
 bun install
-bun run start  
+bun dev
 ```
 
 # Building For Production
@@ -29,8 +29,6 @@ bun run test
 
 This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
 
-
-
 ## Shadcn
 
 Add components using the latest version of [Shadcn](https://ui.shadcn.com/).
@@ -39,9 +37,60 @@ Add components using the latest version of [Shadcn](https://ui.shadcn.com/).
 pnpx shadcn@latest add button
 ```
 
+## Backend with Convex
 
+This project uses [Convex](https://www.convex.dev/) as its backend. Convex is a backend application platform that provides:
+
+- Real-time database with automatic live updates
+- Serverless functions (queries, mutations, and actions)
+- TypeScript support with end-to-end type safety
+- Built-in scheduling and cron jobs
+- File storage capabilities
+
+### Project Structure
+
+The Convex backend code is organized in the `convex/` directory:
+
+- `convex/schema.ts` - Database schema definitions
+- `convex/routes/` - Backend functions organized by feature
+- `convex/_generated/` - Auto-generated TypeScript types
+
+### Example Todo App
+
+The project includes a simple todo application that demonstrates Convex's key features:
+
+#### Database Schema
+
+```typescript
+// convex/schema.ts
+{
+  tasks: defineTable({
+    text: v.string(),
+    isCompleted: v.boolean(),
+  }),
+}
+```
+
+#### Backend Functions
+
+The todo app implements these Convex functions in `convex/routes/tasks.ts`:
+
+- `get()` - Query to fetch all tasks
+- `create({ text })` - Mutation to create a new task
+- `update({ id, isCompleted })` - Mutation to toggle task completion
+- `remove({ id })` - Mutation to delete a task
+
+#### Frontend Integration
+
+The app uses Convex's React hooks for real-time data synchronization:
+
+- `useQuery(api.routes.tasks.get)` - Subscribe to tasks list
+- `useMutation(api.routes.tasks.create)` - Create new tasks
+- `useMutation(api.routes.tasks.update)` - Update task status
+- `useMutation(api.routes.tasks.remove)` - Remove tasks
 
 ## Routing
+
 This project uses [TanStack Router](https://tanstack.com/router). The initial setup is a file based router. Which means that the routes are managed as files in `src/routes`.
 
 ### Adding A Route
@@ -101,7 +150,6 @@ export const Route = createRootRoute({
 The `<TanStackRouterDevtools />` component is not required so you can remove it if you don't want it in your layout.
 
 More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
 
 ## Data Fetching
 
